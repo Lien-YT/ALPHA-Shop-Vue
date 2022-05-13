@@ -8,23 +8,32 @@
 
 <style>
 #alpha-shop {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
+  font-family: "Noto Sans TC", Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
+  color: #2A2A2A;  
 }
 
-nav {
-  padding: 30px;
+img {
+  width: 100%;
+  height: 100%;
+  display: block;
 }
 
-nav a {
-  font-weight: bold;
-  color: #2c3e50;
+.btn,
+button,
+button:focus,
+input:focus,
+textarea:focus,
+select,
+select:focus,
+a:focus {
+  outline: 0px !important;
 }
 
-nav a.router-link-exact-active {
-  color: #42b983;
+button {
+  background-color: transparent;
+  border: 0;
+  cursor: pointer;
 }
 </style>
