@@ -2,6 +2,7 @@
   <div class="checkout">
     <h2>結帳</h2>
     <Steppers />
+    <Form />
     <Buttons />
     <Cart />
   </div>
@@ -10,6 +11,7 @@
 <script>
 // @ is an alias to /src
 import Steppers from "@/components/Steppers";
+import Form from "@/components/Form";
 import Buttons from "@/components/Buttons";
 import Cart from "@/components/Cart";
 
@@ -17,6 +19,7 @@ export default {
   name: "Checkout",
   components: {
     Steppers,
+    Form,
     Buttons,
     Cart,
   },

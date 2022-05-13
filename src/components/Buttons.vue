@@ -24,8 +24,8 @@
 }
 .btn {
   height: 46px;
-  min-width: 156px;
   width: 100%;
+  max-width: 11rem;
 }
 .prev-btn {
   display: flex;
