@@ -2,9 +2,9 @@
   <div class="checkout">
     <h2>結帳</h2>
     <Steppers />
-    <Form />
+    <Form :cities="cities" :shippingWays="shippingWays" />
     <Buttons />
-    <Cart />
+    <Cart :cartItems="cartItems" />
   </div>
 </template>
 
@@ -15,6 +15,64 @@ import Form from "@/components/Form";
 import Buttons from "@/components/Buttons";
 import Cart from "@/components/Cart";
 
+const formData = {
+  cities: [
+    "基隆市",
+    "台北市",
+    "新北市",
+    "桃園市",
+    "新竹市",
+    "新竹縣",
+    "宜蘭縣",
+    "苗栗縣",
+    "台中市",
+    "彰化縣",
+    "雲林縣",
+    "南投縣",
+    "嘉義市",
+    "嘉義縣",
+    "台南市",
+    "高雄市",
+    "屏東縣",
+    "花蓮縣",
+    "台東縣",
+    "外島地區",
+  ],
+  shippingWays: [
+    {
+      id: 1,
+      way: "標準運送",
+      description: "約 3-7 個工作天",
+      cost: 0,
+    },
+    {
+      id: 2,
+      way: "DHL 貨櫃",
+      description: "48 小時內送達",
+      cost: 500,
+    },
+  ],
+};
+
+const cartItems = [
+  {
+    id: 1,
+    name: "破壞補丁修身牛仔褲",
+    image: "/images/product_one.png",
+    amount: 1,
+    price: 3999,
+    subtotal: "",
+  },
+  {
+    id: 2,
+    name: "刷色直筒牛仔褲",
+    image: "/images/product_two.png",
+    amount: 1,
+    price: 1299,
+    subtotal: "",
+  },
+];
+
 export default {
   name: "Checkout",
   components: {
@@ -22,6 +80,24 @@ export default {
     Form,
     Buttons,
     Cart,
+  },
+  data() {
+    return {
+      cities: [],
+      shippingWays: [],
+      cartItems: [],
+    };
+  },
+  created() {
+    this.fetchCheckoutData();
+  },
+  methods: {
+    fetchCheckoutData() {
+      const { cities, shippingWays } = formData;
+      this.cities = cities;
+      this.shippingWays = shippingWays;
+      this.cartItems = cartItems;
+    },
   },
 };
 </script>

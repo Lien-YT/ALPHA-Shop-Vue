@@ -2,19 +2,20 @@
   <div class="cart">
     <h3 class="cart-title">購物籃</h3>
     <div class="cart-products">
-      <div class="c-product-card">
+      <div v-for="cartItem in cartItems" :key="cartItem.id" class="c-product-card">
         <div class="c-product-img">
-          <img src="${item.image}" alt="" />
+          <img :src="cartItem.image" alt="" />
         </div>
         <div class="c-product-info">
-          <p class="c-product-name">${item.name}</p>
-          <div class="c-product-qty" data-id="${item.id}">
+          <p class="c-product-name">{{ cartItem.name }}</p>
+          <div class="c-product-qty" :key="cartItem.id">
             <button class="btn btn-minus"><img src="./../assets/images/minus.png" /></button>
-            <span class="c-product-qty_amount"> ${item.amount}</span>
+            <span class="c-product-qty_amount"> {{ cartItem.amount }}</span>
             <button class="btn btn-plus"><img src="./../assets/images/plus.png" /></button>
           </div>
-          <b class="c-product-price price">
-            $${item.subtotal.toLocaleString("en-US")}</b
+          <b class="c-product-price price"> 
+            {{cartItem.subtotal.toLocaleString("en-US")}}
+            </b
           >
         </div>
       </div>
@@ -33,6 +34,12 @@
 <script>
 export default {
   name: "Cart",
+  props: {
+    cartItems: {
+      type: Array,
+      required: true
+    }
+  },
 };
 </script>
 
@@ -96,6 +103,11 @@ h3 {
   height: 26px;
   border-radius: 50%;
   background-color: #f0f0f5;
+}
+button > img {
+  height: 11px;
+  width: 11px;
+  margin: 0 auto;
 }
 .c-product-price {
   height: 22px;

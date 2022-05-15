@@ -47,31 +47,7 @@
             <div class="select-wrapper">
               <select name="a-type" id="a-city" required>
                 <option value="" disabled selected>請選擇縣市</option>
-                <option value="" disabled>====北部====</option>
-                <option value="">基隆市</option>
-                <option value="">台北市</option>
-                <option value="">新北市</option>
-                <option value="">桃園市</option>
-                <option value="">新竹市</option>
-                <option value="">新竹縣</option>
-                <option value="">宜蘭縣</option>
-                <option value="" disabled>====中部====</option>
-                <option value="">苗栗縣</option>
-                <option value="">台中市</option>
-                <option value="">彰化縣</option>
-                <option value="">雲林縣</option>
-                <option value="">南投縣</option>
-                <option value="" disabled>====南部====</option>
-                <option value="">嘉義市</option>
-                <option value="">嘉義縣</option>
-                <option value="">台南市</option>
-                <option value="">高雄市</option>
-                <option value="">屏東縣</option>
-                <option value="" disabled>====東部====</option>
-                <option value="">花蓮縣</option>
-                <option value="">台東縣</option>
-                <option value="" disabled>====外島====</option>
-                <option value="">外島地區</option>
+                <option v-for="city of cities" :key="cities.indexOf(city)" value="">{{ city }}</option>
               </select>
             </div>
           </div>
@@ -89,21 +65,13 @@
       <!-- Part 2: 運送方式 -->
       <div class="part" id="shipping-way">
         <h2 class="part-title">運送方式</h2>
-        <div class="form-wrap active">
+        <div v-for="shippingWay of shippingWays" :key="shippingWay.id" class="form-wrap">
           <input name="shipping-type" type="radio" value="standard" />
           <div class="shipping-type-desc">
-            <label>標準運送</label>
-            <p>約 3-7 個工作天</p>
+            <label>{{ shippingWay.way }}</label>
+            <p>{{ shippingWay.description }}</p>
           </div>
-          <div class="shipping-type-cost">免費</div>
-        </div>
-        <div class="form-wrap">
-          <input name="shipping-type" type="radio" value="dhl-container" />
-          <div class="shipping-type-desc">
-            <label>DHL 貨櫃</label>
-            <p>48 小時內送達</p>
-          </div>
-          <div class="shipping-type-cost">$500</div>
+          <div class="shipping-type-cost">{{ shippingWay.cost | renderCost }}</div>
         </div>
       </div>
       <!-- Part 3: 付款資訊 -->
@@ -136,6 +104,29 @@
   </div>
 </template>
 
+<script>
+export default {
+  name: "Form",
+  filters: {
+    renderCost (cost) {
+      return cost === 0
+       ? `免費`
+       : `$${cost}`
+    },
+  },
+  props: {
+    cities: {
+      type: Array,
+      required: true
+    },
+    shippingWays: {
+      type: Array,
+      required: true
+    }
+  },
+
+}
+</script>
 <style scoped>
 .form-panel {
   grid-column: 1/7;
