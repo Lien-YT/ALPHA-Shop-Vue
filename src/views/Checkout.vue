@@ -4,7 +4,7 @@
     <Steppers />
     <Form :cities="cities" :shippingWays="shippingWays" />
     <Buttons />
-    <Cart :cartItems="cartItems" />
+    <Cart :initialCartItems="cartItems" />
   </div>
 </template>
 

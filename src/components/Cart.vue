@@ -2,21 +2,34 @@
   <div class="cart">
     <h3 class="cart-title">購物籃</h3>
     <div class="cart-products">
-      <div v-for="cartItem in cartItems" :key="cartItem.id" class="c-product-card">
+      <div
+        v-for="cartItem in cartItems"
+        :key="cartItem.id"
+        class="c-product-card"
+      >
         <div class="c-product-img">
           <img :src="cartItem.image" alt="" />
         </div>
         <div class="c-product-info">
           <p class="c-product-name">{{ cartItem.name }}</p>
           <div class="c-product-qty" :key="cartItem.id">
-            <button class="btn btn-minus"><img src="./../assets/images/minus.png" /></button>
+            <button
+              class="btn btn-minus"
+              @click.stop.prevent="reduceQty(cartItem.id)"
+            >
+              <img src="./../assets/images/minus.png" />
+            </button>
             <span class="c-product-qty_amount"> {{ cartItem.amount }}</span>
-            <button class="btn btn-plus"><img src="./../assets/images/plus.png" /></button>
+            <button
+              class="btn btn-plus"
+              @click.stop.prevent="addQty(cartItem.id)"
+            >
+              <img src="./../assets/images/plus.png" />
+            </button>
           </div>
-          <b class="c-product-price price"> 
-            {{cartItem.subtotal.toLocaleString("en-US")}}
-            </b
-          >
+          <b class="c-product-price price">
+            {{ cartItem.subtotal.toLocaleString("en-US") }}
+          </b>
         </div>
       </div>
     </div>
@@ -35,9 +48,42 @@
 export default {
   name: "Cart",
   props: {
-    cartItems: {
+    initialCartItems: {
       type: Array,
-      required: true
+      required: true,
+    },
+  },
+  data() {
+    return {
+      cartItems: this.initialCartItems,
+    };
+  },
+  methods: {
+    reduceQty(id) {
+      this.cartItems = this.cartItems.map((cartItem) => {
+        if (cartItem.id !== id) {
+          return cartItem;
+        } else {
+            return cartItem.amount === 0
+            ? Number(0)
+            : {
+              ...cartItem,
+              amount: cartItem.amount - 1,
+            };
+        }
+      });
+    },
+    addQty (id) {
+      this.cartItems = this.cartItems.map((cartItem) => {
+        if (cartItem.id !== id) {
+          return cartItem;
+        } else {
+            return {
+              ...cartItem,
+              amount: cartItem.amount + 1,
+            };
+        }
+      });
     }
   },
 };
