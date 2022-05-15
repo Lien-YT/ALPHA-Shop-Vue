@@ -65,8 +65,8 @@
       <!-- Part 2: 運送方式 -->
       <div class="part" id="shipping-way">
         <h2 class="part-title">運送方式</h2>
-        <div v-for="shippingWay of shippingWays" :key="shippingWay.id" class="form-wrap">
-          <input name="shipping-type" type="radio" value="standard" />
+        <div v-for="shippingWay of shippingWays" :key="shippingWay.id" class="form-wrap" :class="{'active':shippingWay.isActive}" >
+          <input :class="{'active':shippingWay.isActive}" name="shipping-type" type="radio" value="standard" @click="setActive(shippingWay.id)"/>
           <div class="shipping-type-desc">
             <label>{{ shippingWay.way }}</label>
             <p>{{ shippingWay.description }}</p>
@@ -119,12 +119,34 @@ export default {
       type: Array,
       required: true
     },
-    shippingWays: {
+    initialShippingWays: {
       type: Array,
       required: true
     }
   },
-
+  data () {
+    return {
+      shippingWays: this.initialShippingWays
+    }
+  },
+  
+  methods: {
+    setActive(id) {
+      this.shippingWays = this.shippingWays.map((shippingWay) => {
+        if (shippingWay.id !== id) {
+          return {
+            ...shippingWay,
+            isActive: false
+          }
+        } else {
+          return {
+            ...shippingWay,
+           isActive: true
+          }
+        }
+      });
+    }
+  }
 }
 </script>
 <style scoped>

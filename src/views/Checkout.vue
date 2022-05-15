@@ -2,7 +2,7 @@
   <div class="checkout">
     <h2>結帳</h2>
     <Steppers />
-    <Form :cities="cities" :shippingWays="shippingWays" />
+    <Form :cities="cities" :initialShippingWays="shippingWays" />
     <Buttons />
     <Cart :initialCartItems="cartItems" />
   </div>
@@ -44,12 +44,14 @@ const formData = {
       way: "標準運送",
       description: "約 3-7 個工作天",
       cost: 0,
+      isActive: true,
     },
     {
       id: 2,
       way: "DHL 貨櫃",
       description: "48 小時內送達",
       cost: 500,
+      isActive: false,
     },
   ],
 };
