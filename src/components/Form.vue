@@ -47,7 +47,13 @@
             <div class="select-wrapper">
               <select name="a-type" id="a-city" required>
                 <option value="" disabled selected>請選擇縣市</option>
-                <option v-for="city of cities" :key="cities.indexOf(city)" value="">{{ city }}</option>
+                <option
+                  v-for="city of cities"
+                  :key="cities.indexOf(city)"
+                  value=""
+                >
+                  {{ city }}
+                </option>
               </select>
             </div>
           </div>
@@ -65,13 +71,25 @@
       <!-- Part 2: 運送方式 -->
       <div class="part" id="shipping-way">
         <h2 class="part-title">運送方式</h2>
-        <div v-for="shippingWay of shippingWays" :key="shippingWay.id" class="form-wrap" :class="{'active':shippingWay.isActive}" >
-          <input :class="{'active':shippingWay.isActive}" name="shipping-type" type="radio" value="standard" @click="setActive(shippingWay.id)"/>
+        <div
+          v-for="shippingWay of shippingWays"
+          :key="shippingWay.id"
+          :class="['form-wrap', { active: shippingWay.isActive }]"
+        >
+          <input
+            :class="{ active: shippingWay.isActive }"
+            name="shipping-type"
+            type="radio"
+            value="standard"
+            @click="handleActiveWrapClick(shippingWay.id)"
+          />
           <div class="shipping-type-desc">
             <label>{{ shippingWay.way }}</label>
             <p>{{ shippingWay.description }}</p>
           </div>
-          <div class="shipping-type-cost">{{ shippingWay.cost | renderCost }}</div>
+          <div class="shipping-type-cost">
+            {{ shippingWay.cost | renderCost }}
+          </div>
         </div>
       </div>
       <!-- Part 3: 付款資訊 -->
@@ -108,46 +126,26 @@
 export default {
   name: "Form",
   filters: {
-    renderCost (cost) {
-      return cost === 0
-       ? `免費`
-       : `$${cost}`
+    renderCost(cost) {
+      return cost === 0 ? `免費` : `$${cost}`;
     },
   },
   props: {
     cities: {
       type: Array,
-      required: true
+      required: true,
     },
-    initialShippingWays: {
+    shippingWays: {
       type: Array,
-      required: true
-    }
+      required: true,
+    },
   },
-  data () {
-    return {
-      shippingWays: this.initialShippingWays
-    }
-  },
-  
   methods: {
-    setActive(id) {
-      this.shippingWays = this.shippingWays.map((shippingWay) => {
-        if (shippingWay.id !== id) {
-          return {
-            ...shippingWay,
-            isActive: false
-          }
-        } else {
-          return {
-            ...shippingWay,
-           isActive: true
-          }
-        }
-      });
-    }
-  }
-}
+    handleActiveWrapClick(wayId) {
+      this.$emit("after-active-wrap", wayId);
+    },
+  },
+};
 </script>
 <style scoped>
 .form-panel {

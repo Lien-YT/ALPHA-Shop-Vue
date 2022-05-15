@@ -2,7 +2,11 @@
   <div class="checkout">
     <h2>結帳</h2>
     <Steppers />
-    <Form :cities="cities" :initialShippingWays="shippingWays" />
+    <Form
+      :cities="cities"
+      :shippingWays="shippingWays"
+      @after-active-wrap="setActiveWrap(id)"
+    />
     <Buttons />
     <Cart :initialCartItems="cartItems" />
   </div>
@@ -99,6 +103,21 @@ export default {
       this.cities = cities;
       this.shippingWays = shippingWays;
       this.cartItems = cartItems;
+    },
+    setActiveWrap(id) {
+      this.shippingWays = this.shippingWays.map((shippingWay) => {
+        if (shippingWay.id !== id) {
+          return {
+            ...shippingWay,
+            isActive: false,
+          };
+        } else {
+          return {
+            ...shippingWay,
+            isActive: true,
+          };
+        }
+      });
     },
   },
 };
