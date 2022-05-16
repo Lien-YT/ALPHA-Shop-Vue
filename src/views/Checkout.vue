@@ -5,10 +5,12 @@
     <Form
       :cities="cities"
       :shippingWays="shippingWays"
-      @after-active-wrap="setActiveWrap(id)"
+      @after-active-wrap="setActiveWrap"
     />
     <Buttons />
-    <Cart :initialCartItems="cartItems" />
+    <Cart
+     :initialCartItems="cartItems" :shippingCost="shippingCost" 
+    />
   </div>
 </template>
 
@@ -92,6 +94,7 @@ export default {
       cities: [],
       shippingWays: [],
       cartItems: [],
+      shippingCost: 0,
     };
   },
   created() {
@@ -112,6 +115,7 @@ export default {
             isActive: false,
           };
         } else {
+          this.shippingCost = shippingWay.cost
           return {
             ...shippingWay,
             isActive: true,

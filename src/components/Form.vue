@@ -77,7 +77,7 @@
           :class="['form-wrap', { active: shippingWay.isActive }]"
         >
           <input
-            :class="{ active: shippingWay.isActive }"
+            :checked="shippingWay.isActive"
             name="shipping-type"
             type="radio"
             value="standard"
@@ -123,13 +123,11 @@
 </template>
 
 <script>
+import { priceFilter } from "../utils/mixins";
+
 export default {
   name: "Form",
-  filters: {
-    renderCost(cost) {
-      return cost === 0 ? `免費` : `$${cost}`;
-    },
-  },
+  mixins: [priceFilter],
   props: {
     cities: {
       type: Array,

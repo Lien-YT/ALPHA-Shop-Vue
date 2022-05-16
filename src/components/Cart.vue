@@ -35,7 +35,7 @@
     </div>
     <div class="freight-cost">
       <p class="freight-cost_p">運費</p>
-      <b class="freight-cost_b price"> -- </b>
+      <b class="freight-cost_b price">{{ shippingCost | renderCost }}</b>
     </div>
     <div class="total-cost">
       <p class="total-cost_p">小計</p>
@@ -45,11 +45,18 @@
 </template>
 
 <script>
+import { priceFilter } from "../utils/mixins";
+
 export default {
   name: "Cart",
+  mixins: [priceFilter],
   props: {
     initialCartItems: {
       type: Array,
+      required: true,
+    },
+    shippingCost: {
+      type: Number,
       required: true,
     },
   },
@@ -58,18 +65,17 @@ export default {
       cartItems: this.initialCartItems,
     };
   },
+  
   methods: {
     reduceQty(id) {
       this.cartItems = this.cartItems.map((cartItem) => {
-        if (cartItem.id !== id) {
-          return cartItem;
-        } else {
-            return cartItem.amount === 0
-            ? Number(0)
-            : {
+        if (cartItem.id === id && cartItem.amount > 1) {
+          return {
               ...cartItem,
               amount: cartItem.amount - 1,
             };
+        } else {
+          return cartItem;
         }
       });
     },
@@ -84,8 +90,14 @@ export default {
             };
         }
       });
-    }
+    },
   },
+  watch: {
+    shippingCost (newValue) {
+      this.shippingCost = newValue
+      
+    },
+  }
 };
 </script>
 
@@ -161,6 +173,10 @@ button > img {
 }
 .freight-cost,
 .total-cost {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 9px 2rem 0;
   border-top: 1px solid #f0f0f5;
   font-size: 14px;
 }
