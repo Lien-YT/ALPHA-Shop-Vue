@@ -15,20 +15,20 @@
           <div class="c-product-qty" :key="cartItem.id">
             <button
               class="btn btn-minus"
-              @click.stop.prevent="reduceQty(cartItem.id)"
+              @click.stop.prevent="reduceQty(cartItem.id) ; handleAmountChange(cartItems)"
             >
               <img src="./../assets/images/minus.png" />
             </button>
             <span class="c-product-qty_amount"> {{ cartItem.amount }}</span>
             <button
               class="btn btn-plus"
-              @click.stop.prevent="addQty(cartItem.id)"
+              @click.stop.prevent="addQty(cartItem.id) ; handleAmountChange(cartItems)"
             >
               <img src="./../assets/images/plus.png" />
             </button>
           </div>
           <b class="c-product-price price">
-            {{ cartItem.subtotal.toLocaleString("en-US") }}
+            {{ cartItem.subtotal | renderCost }}
           </b>
         </div>
       </div>
@@ -39,7 +39,7 @@
     </div>
     <div class="total-cost">
       <p class="total-cost_p">小計</p>
-      <b class="total-cost_b price"></b>
+      <b class="total-cost_b price">{{ totalCost | renderCost }}</b>
     </div>
   </div>
 </template>
@@ -59,6 +59,10 @@ export default {
       type: Number,
       required: true,
     },
+    totalCost: {
+      type: Number,
+      required: true,
+    },
   },
   data() {
     return {
@@ -73,6 +77,7 @@ export default {
           return {
               ...cartItem,
               amount: cartItem.amount - 1,
+              subtotal: (cartItem.amount - 1) * cartItem.price
             };
         } else {
           return cartItem;
@@ -87,17 +92,15 @@ export default {
             return {
               ...cartItem,
               amount: cartItem.amount + 1,
+              subtotal: (cartItem.amount + 1) * cartItem.price
             };
         }
       });
     },
-  },
-  watch: {
-    shippingCost (newValue) {
-      this.shippingCost = newValue
-      
+    handleAmountChange(cartItems) {
+      this.$emit("after-amount-change", cartItems);
     },
-  }
+  },
 };
 </script>
 

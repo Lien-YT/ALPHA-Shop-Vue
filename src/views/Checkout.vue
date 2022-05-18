@@ -9,7 +9,10 @@
     />
     <Buttons />
     <Cart
-     :initialCartItems="cartItems" :shippingCost="shippingCost" 
+      :initialCartItems="cartItems"
+      :shippingCost="shippingCost"
+      :totalCost="totalCost"
+      @after-amount-change="resetCartItems"
     />
   </div>
 </template>
@@ -69,7 +72,7 @@ const cartItems = [
     image: "/images/product_one.png",
     amount: 1,
     price: 3999,
-    subtotal: "",
+    subtotal: 3999,
   },
   {
     id: 2,
@@ -77,7 +80,7 @@ const cartItems = [
     image: "/images/product_two.png",
     amount: 1,
     price: 1299,
-    subtotal: "",
+    subtotal: 1299,
   },
 ];
 
@@ -97,6 +100,14 @@ export default {
       shippingCost: 0,
     };
   },
+  computed: {
+    totalCost() {
+      return (
+        this.cartItems.reduce((total, item) => total + item.subtotal, 0) +
+        this.shippingCost
+      );
+    },
+  },
   created() {
     this.fetchCheckoutData();
   },
@@ -115,7 +126,7 @@ export default {
             isActive: false,
           };
         } else {
-          this.shippingCost = shippingWay.cost
+          this.shippingCost = shippingWay.cost;
           return {
             ...shippingWay,
             isActive: true,
@@ -123,13 +134,15 @@ export default {
         }
       });
     },
+    resetCartItems(cartItems) {
+      this.cartItems = cartItems
+    }
   },
 };
 </script>
 
 <style scoped>
 .checkout {
-  outline: 1px solid red;
   margin: 0 auto;
   padding-bottom: 7.5em;
   width: 90%;
