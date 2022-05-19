@@ -2,7 +2,7 @@
   <div class="form-panel">
     <form id="a-form">
       <!-- Part 1: 寄送地址 -->
-      <div class="part">
+      <div v-show="currentStep === 1" class="part">
         <div id="shipping-info">
           <h2 class="part-title">寄送地址</h2>
           <div class="form-row">
@@ -69,7 +69,7 @@
         </div>
       </div>
       <!-- Part 2: 運送方式 -->
-      <div class="part" id="shipping-way">
+      <div v-show="currentStep === 2" class="part" id="shipping-way">
         <h2 class="part-title">運送方式</h2>
         <div
           v-for="shippingWay of shippingWays"
@@ -93,7 +93,7 @@
         </div>
       </div>
       <!-- Part 3: 付款資訊 -->
-      <div class="part">
+      <div v-show="currentStep === 3" class="part">
         <div id="payment-info">
           <h2 class="part-title">付款資訊</h2>
           <div class="form-row">
@@ -137,6 +137,10 @@ export default {
       type: Array,
       required: true,
     },
+    currentStep: {
+      type: Number,
+      default: 1,
+    },
   },
   methods: {
     handleActiveWrapClick(wayId) {
@@ -145,6 +149,7 @@ export default {
   },
 };
 </script>
+
 <style scoped>
 .form-panel {
   grid-column: 1/7;

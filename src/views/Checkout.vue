@@ -1,13 +1,14 @@
 <template>
   <div class="checkout">
     <h2>結帳</h2>
-    <Steppers :currentStep="currentStep"/>
+    <Steppers :currentStep="currentStep" />
     <Form
       :cities="cities"
       :shippingWays="shippingWays"
+      :currentStep="currentStep"
       @after-active-wrap="setActiveWrap"
     />
-    <Buttons />
+    <Buttons :currentStep="currentStep" @after-change-step="changeStep" />
     <Cart
       :initialCartItems="cartItems"
       :shippingCost="shippingCost"
@@ -98,7 +99,7 @@ export default {
       shippingWays: [],
       cartItems: [],
       shippingCost: 0,
-      currentStep: 2,
+      currentStep: 1,
     };
   },
   computed: {
@@ -136,8 +137,15 @@ export default {
       });
     },
     resetCartItems(cartItems) {
-      this.cartItems = cartItems
-    }
+      this.cartItems = cartItems;
+    },
+    changeStep(order) {
+      if (this.currentStep < 3 && order === "next") {
+        this.currentStep++;
+      } else {
+        this.currentStep--;
+      }
+    },
   },
 };
 </script>
@@ -150,7 +158,7 @@ export default {
   max-width: 1110px;
   display: grid;
   grid-template-columns: repeat(12, 1fr);
-  grid-template-rows: 1fr 1fr auto 2fr;
+  grid-template-rows: 86px 86px 1fr 100px;
 }
 h2 {
   margin: auto 0;
