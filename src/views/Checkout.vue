@@ -1,7 +1,7 @@
 <template>
   <div class="checkout">
     <h2>結帳</h2>
-    <Steppers />
+    <Steppers :currentStep="currentStep"/>
     <Form
       :cities="cities"
       :shippingWays="shippingWays"
@@ -98,6 +98,7 @@ export default {
       shippingWays: [],
       cartItems: [],
       shippingCost: 0,
+      currentStep: 2,
     };
   },
   computed: {

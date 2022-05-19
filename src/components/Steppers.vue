@@ -6,27 +6,49 @@
         stepper-container    
       "
     >
-      <div class="step active">
-        <div class="circle-container">1</div>
-        <div class="label-container">寄送地址</div>
-      </div>
-      <div class="step checked">
+      <div v-for="step in steps" :key="step.id" :class="['step', { active: currentStep === step.id , checked: currentStep > step.id }]">
         <span class="connect-line"></span>
-        <div class="circle-container">2</div>
-        <div class="label-container">運送方式</div>
-      </div>
-      <div class="step">
-        <span class="connect-line"></span>
-        <div class="circle-container">3</div>
-        <div class="label-container">付款資訊</div>
+        <div v-if="currentStep > step.id" class="circle-container"> &#10004; </div>
+        <div v-else class="circle-container">{{ step.id  }}</div>
+        <div class="label-container">{{ step.title }}</div>
       </div>
     </div>
   </div>
+  
 </template>
+
+<script>
+export default {
+  name: "Steppers",
+  props: {
+    currentStep: {
+      type: Number,
+      default: 1
+    },
+  },
+  data() {
+    return {
+      steps: [
+        {
+          id: 1,
+          title: '寄送地址',
+        },
+        {
+          id: 2,
+          title: '運送方式',
+        },
+        {
+          id: 3,
+          title: '付款資訊',
+        }
+      ],
+    }
+  },
+}
+</script>
 
 <style scoped>
 .step-control {
-  outline: 1px solid yellow;
   width: 100%;
   height: 24px;
 
@@ -59,9 +81,6 @@
   background-color: #333333;
   color: white;
 }
-/* .step.checked > .circle-container::after {
-  content: "\2714";
-} */
 
 .circle-container {
   height: 24px;
@@ -74,12 +93,15 @@
 .label-container {
   margin-left: 0.5rem;
 }
-.connect-line {
+span {
   height: 1px;
   width: calc((45vw  - 4.5rem - 1.5rem - 12rem - 8rem) / 2);
   background-color: #AFB1BD;
   position: absolute;
   top: 12px;
   right: calc(100% + 1.5rem);
+}
+.step:first-of-type > span {
+  display: none;
 }
 </style>
