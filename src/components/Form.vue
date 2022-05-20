@@ -8,10 +8,15 @@
           <div class="form-row">
             <label>稱謂</label>
             <div class="select-wrapper">
-              <select name="a-type" id="a-title" v-model="orderData.title" required>
+              <select
+                name="a-type"
+                id="a-title"
+                v-model="orderData.title"
+                required
+              >
                 <option value="" disabled selected>請選擇稱謂</option>
-                <option value="mr">先生</option>
-                <option value="ms">女士</option>
+                <option value="Mr.">先生</option>
+                <option value="Ms.">女士</option>
               </select>
             </div>
           </div>
@@ -48,7 +53,12 @@
           <div class="form-row">
             <label>縣市</label>
             <div class="select-wrapper">
-              <select name="a-type" id="a-city" v-model="orderData.city" required>
+              <select
+                name="a-type"
+                id="a-city"
+                v-model="orderData.city"
+                required
+              >
                 <option value="" disabled selected>請選擇縣市</option>
                 <option
                   v-for="city of cities"
@@ -81,11 +91,11 @@
           :class="['form-wrap', { active: shippingWay.isActive }]"
         >
           <input
-            v-model="orderData.shippingCost"
+            v-model="orderData.shippingWay"
             :checked="shippingWay.isActive"
             name="shipping-type"
             type="radio"
-            :value="shippingWay.cost"
+            :value="shippingWay.way"
             @click="handleActiveWrapClick(shippingWay.id)"
           />
           <div class="shipping-type-desc">
@@ -103,7 +113,12 @@
           <h2 class="part-title">付款資訊</h2>
           <div class="form-row">
             <label>持卡人姓名</label>
-            <input id="cardholder-name" v-model="orderData.cardName" type="text" placeholder="John Doe" />
+            <input
+              id="cardholder-name"
+              v-model="orderData.cardName"
+              type="text"
+              placeholder="John Doe"
+            />
           </div>
           <div class="form-row">
             <label>卡號</label>
@@ -117,11 +132,23 @@
           </div>
           <div class="form-row">
             <label>有效期限</label>
-            <input id="expiration-date" v-model="orderData.expDate" type="text" maxlength="4" placeholder="MM/YY" />
+            <input
+              id="expiration-date"
+              v-model="orderData.expDate"
+              type="text"
+              maxlength="4"
+              placeholder="MM/YY"
+            />
           </div>
           <div class="form-row">
             <label>CVC / CVV</label>
-            <input id="CVV" v-model="orderData.cvv" type="text" maxlength="3" placeholder="123" />
+            <input
+              id="CVV"
+              v-model="orderData.cvv"
+              type="text"
+              maxlength="3"
+              placeholder="123"
+            />
           </div>
         </div>
       </div>

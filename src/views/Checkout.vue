@@ -9,8 +9,13 @@
       :currentStep="currentStep"
       @after-active-wrap="setActiveWrap"
     />
-    <Buttons :currentStep="currentStep"  :orderData="orderData" @after-change-step="changeStep" 
-    @after-submit-order="submitOrder" />
+    <Buttons
+      :currentStep="currentStep"
+      :orderData="orderData"
+      @after-change-step="changeStep"
+      @after-submit-order="submitOrder"
+    />
+    <Modal :isShow="isShow" :order="order" @toggle-modal="toggleModal" />
     <Cart
       :initialCartItems="cartItems"
       :shippingCost="shippingCost"
@@ -26,6 +31,7 @@ import Steppers from "@/components/Steppers";
 import Form from "@/components/Form";
 import Buttons from "@/components/Buttons";
 import Cart from "@/components/Cart";
+import Modal from "@/components/Modal";
 
 const formData = {
   cities: [
@@ -94,6 +100,7 @@ export default {
     Form,
     Buttons,
     Cart,
+    Modal,
   },
   data() {
     return {
@@ -109,12 +116,14 @@ export default {
         email: "",
         city: "",
         addr: "",
-        shippingCost: "",
+        shippingWay: "",
         cardName: "",
         cardNo: "",
         expDate: "",
         cvv: "",
       },
+      order: {},
+      isShow: false,
     };
   },
   computed: {
@@ -162,11 +171,22 @@ export default {
       }
     },
     submitOrder() {
-      const order = {
+      // 挑戰1-1: 資料處理-console
+      // const order = {
+      //   ...this.orderData,
+      //   totalPrice: this.totalCost,
+      // };
+      // console.log(order)
+
+      // 挑戰1-2: 資料處理-Modal
+      this.order = {
         ...this.orderData,
-        totalPrice: this.totalCost
-      }
-      console.log(order)
+        totalPrice: this.totalCost,
+      };
+      this.toggleModal()
+    },
+    toggleModal() {
+      this.isShow = !this.isShow;
     },
   },
 };
