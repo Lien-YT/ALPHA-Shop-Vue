@@ -9,7 +9,7 @@
         <img src="./../assets/images/arrow-left-black.png" />上一步
       </div>
     </button>
-    <button v-if="currentStep === 3" class="btn next-btn btn-primary">
+    <button type="submit" v-if="currentStep === 3" class="btn next-btn btn-primary" @click.stop.prevent="handleSubmitOrder">
       確認下單
     </button>
     <button
@@ -35,6 +35,9 @@ export default {
     handleChangeStep(order) {
       this.$emit("after-change-step", order);
     },
+    handleSubmitOrder() {
+      this.$emit("after-submit-order");
+    }
   },
 };
 </script>

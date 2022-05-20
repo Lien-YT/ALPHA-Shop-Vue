@@ -8,7 +8,7 @@
           <div class="form-row">
             <label>稱謂</label>
             <div class="select-wrapper">
-              <select name="a-type" id="a-title" required>
+              <select name="a-type" id="a-title" v-model="orderData.title" required>
                 <option value="" disabled selected>請選擇稱謂</option>
                 <option value="mr">先生</option>
                 <option value="ms">女士</option>
@@ -19,6 +19,7 @@
             <label>姓名</label>
             <input
               id="receiver-name"
+              v-model="orderData.name"
               type="text"
               placeholder="請輸入姓名"
               required
@@ -28,6 +29,7 @@
             <label>電話</label>
             <input
               id="receiver-tel"
+              v-model="orderData.tel"
               type="text"
               placeholder="請輸入行動電話"
               required
@@ -37,6 +39,7 @@
             <label>E-mail</label>
             <input
               id="receiver-mail"
+              v-model="orderData.email"
               type="text"
               placeholder="請輸入電子郵件"
               required
@@ -45,12 +48,12 @@
           <div class="form-row">
             <label>縣市</label>
             <div class="select-wrapper">
-              <select name="a-type" id="a-city" required>
+              <select name="a-type" id="a-city" v-model="orderData.city" required>
                 <option value="" disabled selected>請選擇縣市</option>
                 <option
                   v-for="city of cities"
                   :key="cities.indexOf(city)"
-                  value=""
+                  :value="city"
                 >
                   {{ city }}
                 </option>
@@ -61,6 +64,7 @@
             <label>地址</label>
             <input
               id="receiver-address"
+              v-model="orderData.addr"
               type="text"
               placeholder="請輸入地址"
               required
@@ -77,10 +81,11 @@
           :class="['form-wrap', { active: shippingWay.isActive }]"
         >
           <input
+            v-model="orderData.shippingCost"
             :checked="shippingWay.isActive"
             name="shipping-type"
             type="radio"
-            value="standard"
+            :value="shippingWay.cost"
             @click="handleActiveWrapClick(shippingWay.id)"
           />
           <div class="shipping-type-desc">
@@ -98,23 +103,25 @@
           <h2 class="part-title">付款資訊</h2>
           <div class="form-row">
             <label>持卡人姓名</label>
-            <input id="cardholder-name" type="text" placeholder="John Doe" />
+            <input id="cardholder-name" v-model="orderData.cardName" type="text" placeholder="John Doe" />
           </div>
           <div class="form-row">
             <label>卡號</label>
             <input
               id="card-number"
-              type="text"
+              v-model="orderData.cardNo"
+              type="tel"
+              maxlength="16"
               placeholder="1111 2222 3333 4444"
             />
           </div>
           <div class="form-row">
             <label>有效期限</label>
-            <input id="expiration-date" type="text" placeholder="MM/YY" />
+            <input id="expiration-date" v-model="orderData.expDate" type="text" maxlength="4" placeholder="MM/YY" />
           </div>
           <div class="form-row">
-            <label>CVC / CCV</label>
-            <input id="CVV" type="text" placeholder="123" />
+            <label>CVC / CVV</label>
+            <input id="CVV" v-model="orderData.cvv" type="text" maxlength="3" placeholder="123" />
           </div>
         </div>
       </div>
@@ -135,6 +142,10 @@ export default {
     },
     shippingWays: {
       type: Array,
+      required: true,
+    },
+    orderData: {
+      type: Object,
       required: true,
     },
     currentStep: {

@@ -5,10 +5,12 @@
     <Form
       :cities="cities"
       :shippingWays="shippingWays"
+      :orderData="orderData"
       :currentStep="currentStep"
       @after-active-wrap="setActiveWrap"
     />
-    <Buttons :currentStep="currentStep" @after-change-step="changeStep" />
+    <Buttons :currentStep="currentStep"  :orderData="orderData" @after-change-step="changeStep" 
+    @after-submit-order="submitOrder" />
     <Cart
       :initialCartItems="cartItems"
       :shippingCost="shippingCost"
@@ -100,6 +102,19 @@ export default {
       cartItems: [],
       shippingCost: 0,
       currentStep: 1,
+      orderData: {
+        title: "",
+        name: "",
+        tel: "",
+        email: "",
+        city: "",
+        addr: "",
+        shippingCost: "",
+        cardName: "",
+        cardNo: "",
+        expDate: "",
+        cvv: "",
+      },
     };
   },
   computed: {
@@ -145,6 +160,13 @@ export default {
       } else {
         this.currentStep--;
       }
+    },
+    submitOrder() {
+      const order = {
+        ...this.orderData,
+        totalPrice: this.totalCost
+      }
+      console.log(order)
     },
   },
 };
